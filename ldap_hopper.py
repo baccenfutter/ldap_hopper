@@ -60,6 +60,21 @@ class LdapNode(object):
             if str(k).lower() == str(attr).lower():
                 return {k: v}
 
+    def set_attr(self, attrs):
+        change_list = []
+        for set_k, set_v in attrs.iteritems():
+            if set_k not in self.attrs:
+                action = ldap.MOD_ADD
+                change_list.append((action, str(set_k), set_v))
+            elif self.attrs[set_k] != set_v:
+                action = ldap.MOD_REPLACE
+                change_list.append((action, str(set_k), set_v))
+
+        self.initialize()
+        result = self.session.modify_s(self.dn, change_list)
+        self.load_attrs()
+        return result
+
     def get_parent(self):
         """Obtain parent object
 
