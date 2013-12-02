@@ -35,6 +35,9 @@ class LdapNode(object):
         self.bind_pw = bind_pw
         self.attrs = dict(attrs)
 
+        if not self.attrs:
+            self.load_attrs()
+
     def initialize(self):
         self.session = ldap.initialize(self.SERVER)
         self.session.simple_bind_s(self.bind_dn, self.bind_pw)
