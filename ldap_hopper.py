@@ -7,6 +7,7 @@ __date__ = "2013-12-01"
 __license__ = 'public domain'
 
 import ldap
+from ldap import modlist
 
 
 class LdapNode(object):
@@ -151,3 +152,12 @@ class LdapNode(object):
                         attrs = r_data[1]
                         output.append(LdapNode(dn, self.bind_dn, self.bind_pw, attrs))
         return output
+
+    def add(self, dn, attrs):
+        self.initialize()
+        ldif = modlist.addModlist(attrs)
+        return self.session.add_s(dn, ldif)
+
+    def delete(self):
+        self.initialize()
+        return self.session.delete_s(self.dn)
