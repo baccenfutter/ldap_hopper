@@ -44,9 +44,10 @@ cp ../*.py "$sourcedir"
 # copy meta-files to working directory
 cp *.txt "$projectdir"
 cp *.in "$projectdir"
+cp ../README.md "$projectdir/README.txt"
 
 # create setup.py
-setup_stanza="from distutils.core import setup
+setup_stanza="from setuptools import setup
 
 setup(
 name='${pn}',
@@ -59,7 +60,7 @@ url='http://pypi.python.org/pypi/${pn}/',
 license='LICENSE.txt',
 description='${description}',
 long_description=open('README.txt').read(),
-install_requires=[],
+install_requires=['python-ldap >= 2.4.13'],
 )
 "
 
