@@ -10,7 +10,7 @@ import ldap
 from ldap import modlist
 
 
-class LdapNode(object):
+class ObjectNode(object):
     SERVER = "localhost"
 
     def __new__(cls, *args, **kwargs):
