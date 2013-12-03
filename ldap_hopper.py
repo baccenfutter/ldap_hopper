@@ -44,7 +44,7 @@ class ObjectNode(object):
         self.session.simple_bind_s(self.bind_dn, self.bind_pw)
 
     def __repr__(self):
-        return '<LdapNode(%s)>' % self.dn
+        return '<ObjectNode(%s)>' % self.dn
 
     def load_attrs(self):
         """Load all attributes into local cache"""
