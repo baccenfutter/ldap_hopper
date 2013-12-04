@@ -170,3 +170,26 @@ class ObjectNode(object):
 
         self.__initialize()
         self.__session.delete_s(dn)
+
+    def search(self, attribute, value, scope=None):
+        if scope is None:
+            scope = ldap.SCOPE_ONELEVEL
+        search_filter = '%s=%s' % (attribute, value)
+
+        self.__initialize()
+        result_id = self.__session.search(self.dn, scope, search_filter)
+        output = []
+        while 1:
+            r_type, r_data = self.__session.result(result_id, 0)
+            if (r_data == []):
+                break
+            else:
+                if r_type == ldap.RES_SEARCH_ENTRY:
+                    if isinstance(r_data, list):
+                        for r in r_data:
+                            dn = r[0]
+                            output.append(ObjectNode(self.server, dn, self.__bind_dn, self.__bind_pw))
+                    else:
+                        dn = r[0]
+                        output.append(ObjectNode(self.server, dn, self.__bind_dn, self.__bind_pw))
+        return output
