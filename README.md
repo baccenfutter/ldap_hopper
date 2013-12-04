@@ -3,7 +3,7 @@ LDAP-Hopper
 ===========
 
 LDAP-Hopper is a simplistic Python binding for accessing an LDAP Directory
-Information Tree(DIT).::
+Information Tree(DIT).
 
     #!/usr/bin/env python
     from ldap_hopper import ObjectNode
@@ -52,5 +52,4 @@ Resources
 =========
 
 Source: https://github.com/baccenfutter/ldap_hopper
-
 PyPi  : https://pypi.python.org/pypi/LDAP-Hopper/
