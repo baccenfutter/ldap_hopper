@@ -74,6 +74,10 @@ class ObjectNode(object):
         if change_list:
             self.__session.modify_s(self.dn, change_list)
 
+    def set_password(self, dn, old_pw, new_pw):
+        self.__initialize()
+        self.__session.passwd_s(dn, old_pw, new_pw)
+
     def get_parent(self):
         """Obtain parent object
 
