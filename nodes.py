@@ -94,7 +94,7 @@ class ObjectNode(object):
         """
         self.__initialize()
         if by_attr:
-            filter = '%s=*' % by_attr
+            filter = by_attr
         else:
             filter = "objectClass=*"
 
@@ -123,7 +123,7 @@ class ObjectNode(object):
         """
         self.__initialize()
         if by_attr:
-            filter = '%s=*' % by_attr
+            filter = by_attr
         else:
             filter = 'objectClass=*'
 
