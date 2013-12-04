@@ -148,6 +148,12 @@ class ObjectNode(object):
         return output
 
     def add_child(self, dn, attrs):
+        """Add a child-node to this object-node
+
+        :param dn:      either dn or rdn relative to self.dn
+        :param attrs:   attributes dictionary
+        :returns obj:   instance of ObjectNode
+        """
         if not self.dn in dn:
             dn = '%s,%s' % (dn, self.dn)
         ldif = addModlist(attrs)
@@ -157,6 +163,11 @@ class ObjectNode(object):
         return ObjectNode(self.server, dn, self.__bind_dn, self.__bind_pw)
 
     def del_child(self, dn):
+        """Delete a child-node of this object-node
+
+        :param dn:      either dn or rdn relative to self.dn
+        :returns None:  or passes python-ldap exception
+        """
         if not self.dn in dn:
             dn = '%s,%s' % (dn, self.dn)
 
