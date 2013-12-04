@@ -9,11 +9,11 @@ Information Tree(DIT).::
     from ldap_hopper import ObjectNode
 
     # access the root-node
-    ObjectNode.SERVER = 'localhost'
+    server = 'localhost'
     base_dn = 'dc=example,dc=org'
     bind_dn = 'cn=admin,dc=example,dc=org'
     bind_pw = 'secret'
-    root = ObjectNode(base_dn, bind_dn, bind_pw)
+    root = ObjectNode(server, base_dn, bind_dn, bind_pw)
 
     # show attributes of root-node
     print root.attrs
