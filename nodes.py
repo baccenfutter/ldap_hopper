@@ -172,6 +172,13 @@ class ObjectNode(object):
         self.__session.delete_s(dn)
 
     def search(self, attribute, value, scope=None):
+        """Search from this node as search-base
+
+        :param attribute:   name of the attribute to look-up
+        :param value:       value of the attribute to look-up
+        :param scope:       search_scope, e.g. ldap.SCOPE_SUBTREE
+                            (defaults to ldap.SCOPE_ONELEVEL)
+        """
         if scope is None:
             scope = ldap.SCOPE_ONELEVEL
         search_filter = '%s=%s' % (attribute, value)
