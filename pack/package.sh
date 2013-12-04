@@ -21,6 +21,11 @@ if [[ -z $v ]]; then
     exit 1
 fi
 
+if not grep ${v} "CHANGELOG.txt" &>/dev/null; then
+    echo 'You forgot to update the changelog!'
+    exit 1
+fi
+
 read -n 1 -p "Can haz package: ${pv} [y|N]: " answer
 echo
 if [[ ! "$answer" == y ]]; then
@@ -33,7 +38,7 @@ cleanup() {
 }
 
 # bootstrap working directory
-#trap cleanup INT TERM QUIT
+trap cleanup QUIT
 echo $workdir
 
 mkdir -p "$sourcedir"

@@ -1,8 +1,5 @@
-"""LDAP-Hopper
-
-Simple Python binding for easily accessing an LDAP Directory Information Tree.
-"""
-__author__ = "bacce <baccenfutter@c-base.org>"
+"""ldap_hopper.nodes"""
+__author__ = "Brian Wiborg <baccenfutter@c-base.org>"
 __date__ = "2013-12-01"
 __license__ = 'public domain'
 
@@ -97,7 +94,7 @@ class ObjectNode(object):
         """
         self.__initialize()
         if by_attr:
-            filter = '%s=*' % by_attr
+            filter = by_attr
         else:
             filter = "objectClass=*"
 
@@ -126,7 +123,7 @@ class ObjectNode(object):
         """
         self.__initialize()
         if by_attr:
-            filter = '%s=*' % by_attr
+            filter = by_attr
         else:
             filter = 'objectClass=*'
 
@@ -148,6 +145,12 @@ class ObjectNode(object):
         return output
 
     def add_child(self, dn, attrs):
+        """Add a child-node to this object-node
+
+        :param dn:      either dn or rdn relative to self.dn
+        :param attrs:   attributes dictionary
+        :returns obj:   instance of ObjectNode
+        """
         if not self.dn in dn:
             dn = '%s,%s' % (dn, self.dn)
         ldif = addModlist(attrs)
@@ -157,8 +160,43 @@ class ObjectNode(object):
         return ObjectNode(self.server, dn, self.__bind_dn, self.__bind_pw)
 
     def del_child(self, dn):
+        """Delete a child-node of this object-node
+
+        :param dn:      either dn or rdn relative to self.dn
+        :returns None:  or passes python-ldap exception
+        """
         if not self.dn in dn:
             dn = '%s,%s' % (dn, self.dn)
 
         self.__initialize()
         self.__session.delete_s(dn)
+
+    def search(self, attribute, value, scope=None):
+        """Search from this node as search-base
+
+        :param attribute:   name of the attribute to look-up
+        :param value:       value of the attribute to look-up
+        :param scope:       search_scope, e.g. ldap.SCOPE_SUBTREE
+                            (defaults to ldap.SCOPE_ONELEVEL)
+        """
+        if scope is None:
+            scope = ldap.SCOPE_ONELEVEL
+        search_filter = '%s=%s' % (attribute, value)
+
+        self.__initialize()
+        result_id = self.__session.search(self.dn, scope, search_filter)
+        output = []
+        while 1:
+            r_type, r_data = self.__session.result(result_id, 0)
+            if (r_data == []):
+                break
+            else:
+                if r_type == ldap.RES_SEARCH_ENTRY:
+                    if isinstance(r_data, list):
+                        for r in r_data:
+                            dn = r[0]
+                            output.append(ObjectNode(self.server, dn, self.__bind_dn, self.__bind_pw))
+                    else:
+                        dn = r[0]
+                        output.append(ObjectNode(self.server, dn, self.__bind_dn, self.__bind_pw))
+        return output
