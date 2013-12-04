@@ -37,6 +37,11 @@ Information Tree(DIT).::
     node_2 = root.add_child('ou=node_2', attrs)     # will auto-expand self.dn
     print node_1, node_2
 
+    # search for an object
+    node_1 = root.search('ou', 'node_1')    # no scope defaults to onelevel
+    node_2 = root.search('ou', 'node_2', ldap.SCOPE_SUBTREE)    # default can be overwritten
+    print node_1, node_2
+
     # delete child node
     root.del_child('ou=node_1,dc=example,dc=org')
     root.del_child('ou=node_2')                     # shortcut also allowed
