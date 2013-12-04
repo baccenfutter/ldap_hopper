@@ -1,3 +1,4 @@
+v0.2.2, 2013-12-04 -- Add set_password method and unbind to all methods
 v0.2.1, 2013-12-04 -- Refactoring, bug-fixing and a new search method
 v0.2.0, 2013-12-04 -- Refactoring for development release
 v0.1.2, 2013-12-03 -- Adding LDAP write capabilities
