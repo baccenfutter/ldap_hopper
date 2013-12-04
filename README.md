@@ -45,3 +45,8 @@ Information Tree(DIT).::
     # delete child node
     root.del_child('ou=node_1,dc=example,dc=org')
     root.del_child('ou=node_2')                     # shortcut also allowed
+
+
+----------
+Source: https://github.com/baccenfutter/ldap_hopper
+PyPi  : https://pypi.python.org/pypi/LDAP-Hopper/
