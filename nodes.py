@@ -37,6 +37,9 @@ class ObjectNode(object):
         self.__session = ldap.initialize(self.server)
         self.__session.simple_bind_s(self.__bind_dn, self.__bind_pw)
 
+    def __unbind(self):
+        self.__session.unbind_s()
+
     def __qualify_server(self, server):
         """Convenience helper for qualifying hostname of server"""
         try:
@@ -55,7 +58,9 @@ class ObjectNode(object):
         self.__initialize()
         scope = ldap.SCOPE_BASE
         filter = "objectClass=*"
-        return dict(self.__session.search_s(self.dn, scope, filter, None)[0][1])
+        result = dict(self.__session.search_s(self.dn, scope, filter, None)[0][1])
+        self.__unbind()
+        return result
 
     def set_attrs(self, new_attrs):
         old_attrs = self.get_attrs()
@@ -73,10 +78,12 @@ class ObjectNode(object):
 
         if change_list:
             self.__session.modify_s(self.dn, change_list)
+        self.__unbind()
 
     def set_password(self, dn, old_pw, new_pw):
         self.__initialize()
         self.__session.passwd_s(dn, old_pw, new_pw)
+        self.__unbind()
 
     def get_parent(self):
         """Obtain parent object
@@ -86,6 +93,7 @@ class ObjectNode(object):
         self.__initialize()
         dn = ','.join(self.dn.split(',')[1:])
         parent = self.__session.search_s(dn, ldap.SCOPE_BASE, "objectClass=*")
+        self.__unbind()
         dn = parent[0][0]
         attrs = parent[0][1]
         return ObjectNode(dn, self.__bind_dn, self.__bind_pw, attrs)
@@ -117,6 +125,7 @@ class ObjectNode(object):
                     else:
                         dn = r_data[0]
                         output.append(ObjectNode(self.server, dn, self.__bind_dn, self.__bind_pw))
+        self.__unbind()
         return output
 
     def get_subs(self, by_attr=None):
@@ -146,6 +155,7 @@ class ObjectNode(object):
                     else:
                         dn = r_data[0]
                         output.append(ObjectNode(self.server, dn, self.__bind_dn, self.__bind_pw))
+        self.__unbind()
         return output
 
     def add_child(self, dn, attrs):
@@ -161,6 +171,7 @@ class ObjectNode(object):
 
         self.__initialize()
         self.__session.add_s(dn, ldif)
+        self.__unbind()
         return ObjectNode(self.server, dn, self.__bind_dn, self.__bind_pw)
 
     def del_child(self, dn):
@@ -174,6 +185,7 @@ class ObjectNode(object):
 
         self.__initialize()
         self.__session.delete_s(dn)
+        self.__unbind()
 
     def search(self, attribute, value, scope=None):
         """Search from this node as search-base
