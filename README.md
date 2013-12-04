@@ -16,13 +16,15 @@ Information Tree(DIT).
     root = ObjectNode(server, base_dn, bind_dn, bind_pw)
 
     # show attributes of root-node
-    print root.attrs
+    print root.get_attrs()
 
     # get childs of root
     print root.get_childs()
+    print root.get_childs(by_attr='ou=*')
 
     # get subtree of root
     print root.get_subs()
+    print root.get_subs(by_attr='ou=*')
 
     # add child node
     attrs_1 = {
