@@ -14,7 +14,6 @@ class ObjectNode(object):
         :param dn:      distinguishable name
         :param bind_dn: bindDN
         :param bind_pw: password for bindDN
-        :param attrs:   (optional) attributes
         """
         self.server = self.__qualify_server(server)
         self.dn = dn
