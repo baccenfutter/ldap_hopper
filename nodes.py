@@ -76,8 +76,9 @@ class ObjectNode(object):
                 change_list.append((action, str(set_k), set_v))
 
         if change_list:
+            self.__initialize()
             self.__session.modify_s(self.dn, change_list)
-        self.__unbind()
+            self.__unbind()
 
     def set_password(self, dn, old_pw, new_pw):
         self.__initialize()
