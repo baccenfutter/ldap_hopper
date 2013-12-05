@@ -215,3 +215,10 @@ class ObjectNode(object):
                         dn = r[0]
                         output.append(ObjectNode(self.server, dn, self.__bind_dn, self.__bind_pw))
         return output
+
+    def as_tuple(self):
+        """Convenience method for obtaining a ldap result-like tuple
+
+        :returns tuple:     ( str(dn), dict(attrs) )
+        """
+        return (self.dn, self.get_attrs())
