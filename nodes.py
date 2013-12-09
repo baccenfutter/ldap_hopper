@@ -96,7 +96,7 @@ class ObjectNode(object):
         self.__unbind()
         dn = parent[0][0]
         attrs = parent[0][1]
-        return ObjectNode(dn, self.__bind_dn, self.__bind_pw, attrs)
+        return ObjectNode(self.server, dn, self.__bind_dn, self.__bind_pw)
 
     def get_childs(self, by_attr=None):
         """Obtain all childs (onelevel)
