@@ -158,6 +158,9 @@ class ObjectNode(object):
         self.__unbind()
         return output
 
+    def get_by_dn(self, dn):
+        return ObjectNode(self.server, dn, self.__bind_dn, self.__bind_pw)
+
     def add_child(self, dn, attrs):
         """Add a child-node to this object-node
 
