@@ -1,3 +1,4 @@
+v0.2.5, 2013-12-15 -- fix bug in set_password (no longer requires dn)
 v0.2.4, 2013-12-05 -- Fix bug in set_attrs method
 v0.2.3, 2013-12-05 -- Add as_tuple method and minor bug-fixes
 v0.2.2, 2013-12-04 -- Add set_password method and unbind to all methods
