@@ -80,9 +80,9 @@ class ObjectNode(object):
             self.__session.modify_s(self.dn, change_list)
             self.__unbind()
 
-    def set_password(self, dn, old_pw, new_pw):
+    def set_password(self, old_pw, new_pw):
         self.__initialize()
-        self.__session.passwd_s(dn, old_pw, new_pw)
+        self.__session.passwd_s(self.dn, old_pw, new_pw)
         self.__unbind()
 
     def get_parent(self):
@@ -96,7 +96,7 @@ class ObjectNode(object):
         self.__unbind()
         dn = parent[0][0]
         attrs = parent[0][1]
-        return ObjectNode(dn, self.__bind_dn, self.__bind_pw, attrs)
+        return ObjectNode(self.server, dn, self.__bind_dn, self.__bind_pw)
 
     def get_childs(self, by_attr=None):
         """Obtain all childs (onelevel)
@@ -157,6 +157,9 @@ class ObjectNode(object):
                         output.append(ObjectNode(self.server, dn, self.__bind_dn, self.__bind_pw))
         self.__unbind()
         return output
+
+    def get_by_dn(self, dn):
+        return ObjectNode(self.server, dn, self.__bind_dn, self.__bind_pw)
 
     def add_child(self, dn, attrs):
         """Add a child-node to this object-node
