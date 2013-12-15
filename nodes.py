@@ -80,9 +80,9 @@ class ObjectNode(object):
             self.__session.modify_s(self.dn, change_list)
             self.__unbind()
 
-    def set_password(self, dn, old_pw, new_pw):
+    def set_password(self, old_pw, new_pw):
         self.__initialize()
-        self.__session.passwd_s(dn, old_pw, new_pw)
+        self.__session.passwd_s(self.dn, old_pw, new_pw)
         self.__unbind()
 
     def get_parent(self):
