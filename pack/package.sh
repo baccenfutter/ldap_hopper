@@ -21,7 +21,7 @@ if [[ -z $v ]]; then
     exit 1
 fi
 
-if not grep ${v} "CHANGELOG.txt" &>/dev/null; then
+if ! grep ${v} CHANGES.txt &>/dev/null; then
     echo 'You forgot to update the changelog!'
     exit 1
 fi
