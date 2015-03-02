@@ -164,8 +164,18 @@ class Cursor(object):
         self.__unbind()
         return output
 
-    def new_cursor(self, dn):
-        return Cursor(self.server, dn, self.__bind_dn, self.__bind_pw)
+    def new_cursor(self, dn=None, bind_dn=None, bind_pw=None):
+        if dn is None:
+            if bind_dn is None:
+                dn = self.dn
+            else:
+                dn = bind_dn
+
+        if bind_dn is None and bind_pw is None:
+            bind_dn = self.__bind_dn
+            bind_pw = self.__bind_pw
+
+        return Cursor(self.server, dn, bind_dn, bind_pw)
 
     def add_child(self, dn, attrs):
         """Add a child-node to this object-node
@@ -193,7 +203,7 @@ class Cursor(object):
         self.__unbind()
         return None
 
-    def search(self, attribute, value, scope=None):
+    def search(self, search_filter, scope=None):
         """Search from this node as search-base
 
         :param attribute:   name of the attribute to look-up
@@ -203,7 +213,8 @@ class Cursor(object):
         """
         if scope is None:
             scope = ldap.SCOPE_ONELEVEL
-        search_filter = '%s=%s' % (attribute, value)
+        if scope == 'subtree':
+            scope = ldap.SCOPE_SUBTREE
 
         self.__initialize()
         result_id = self.__session.search(self.dn, scope, search_filter)
