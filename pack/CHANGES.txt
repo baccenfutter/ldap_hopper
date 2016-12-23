@@ -1,3 +1,4 @@
+v3.2.0, 2016-12-23 -- add modify method
 v3.0.1, 2015-03-02 -- enhance new_cursor and search methods
 v0.3.0, 2015-02-02 -- cleaner, flatter, more intuitive interface
 v0.2.5, 2013-12-15 -- fix bug in set_password (no longer requires dn)
