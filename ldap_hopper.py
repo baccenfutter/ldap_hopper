@@ -203,6 +203,13 @@ class Cursor(object):
         self.__unbind()
         return None
 
+    def modify(self, new_attrs):
+        self.__initialize()
+        change = ldap.modlist.modifyModlist(self.attrs, new_attrs)
+        self.__session.modify_s(self.dn, change)
+        self.__unbind()
+        return self
+
     def search(self, search_filter, scope=None):
         """Search from this node as search-base
 
