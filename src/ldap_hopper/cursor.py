@@ -48,7 +48,7 @@ class Cursor(object):
                 self.conn.bind_s(self.config.bind_dn, self.config.bind_pw)
 
     def __repr__(self):
-        return self.config['dn']
+        return self.config.dn
 
     def __get_item__(self, item):
         return self.attrs[item]
@@ -153,8 +153,8 @@ class Cursor(object):
     def add(self, dn: str, attrs: dict):
         ldif = addModlist(attrs)
 
-        config = self.config.dict()
-        config['dn'] = dn
+        config = Config(self.config.dict())
+        config.dn = dn
         self.conn.add_s(dn, ldif)
         return Cursor(config=config, conn=self.conn)
 
