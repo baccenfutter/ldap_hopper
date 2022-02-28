@@ -154,7 +154,7 @@ class Cursor(object):
         ldif = addModlist(attrs)
 
         config = self.config.dict()
-        config.dn = dn
+        config['dn'] = dn
         self.conn.add_s(dn, ldif)
         return Cursor(config=config, conn=self.conn)
 
